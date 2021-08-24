@@ -1,7 +1,6 @@
 package generate
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 )
 
@@ -10,7 +9,7 @@ func Command() *cobra.Command {
 		Use:   "generate",
 		Short: "Generate report",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if err := somework(cmd); err != nil {
+			if err := gitwork(cmd); err != nil {
 				return err
 			}
 			return nil
@@ -22,12 +21,4 @@ func Command() *cobra.Command {
 	cmd.MarkPersistentFlagRequired("auth-key")
 
 	return cmd
-}
-
-func somework(cmd *cobra.Command) error {
-	fmt.Println("Hello World" )
-	fmt.Println("organization",cmd.Flag("organization").Value)
-	fmt.Println("auth-keu",cmd.Flag("auth-key").Value)
-
-	return nil
 }
