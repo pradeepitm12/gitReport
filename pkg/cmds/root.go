@@ -21,10 +21,6 @@ func Execute() error {
 }
 
 func init() {
-
-	rootCmd.PersistentFlags().String("organization", "", "gitrep --organization=yyyyy")
-	rootCmd.PersistentFlags().String("auth-key", "", "gitrep --auth-key=xxxxx")
-
 	rootCmd.AddCommand(
 		generate.Command(),
 	)
