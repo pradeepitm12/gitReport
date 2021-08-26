@@ -19,9 +19,9 @@ type user struct {
 func gitwork(cmd *cobra.Command) error {
 
 	header := "login,\tname, \temail, \trepositories, \tlanguages\n"
-	authKey:=cmd.Flag("auth-key").Value.String()
+	authKey := cmd.Flag("auth-key").Value.String()
 	org := cmd.Flag("organization").Value.String()
-	if authKey =="" || authKey==" "{
+	if authKey == "" || authKey == " " {
 		return fmt.Errorf("invalid auth-key")
 	}
 	if org == "" || org == " " {
@@ -46,10 +46,9 @@ func gitwork(cmd *cobra.Command) error {
 	users := make(map[string]user)
 	for _, repo := range repos {
 		contributors, _, _ := client.Repositories.ListContributors(ctx, org, *repo.Name, &github.ListContributorsOptions{})
-
 		for _, con := range contributors {
 			login := con.Login
-			userService,_,_:=client.Users.Get(ctx,*login)
+			userService, _, _ := client.Users.Get(ctx, *login)
 
 			if us, ok := users[*login]; ok {
 				if repo.Language != nil {
@@ -75,24 +74,23 @@ func gitwork(cmd *cobra.Command) error {
 					loginId:   userService.GetLogin(),
 				}
 			}
-
 		}
 	}
-	for _,val:=range users{
+	for _, val := range users {
 
 		var lan string
-		if val.languages!=nil{
-			for k,_:=range val.languages {
-				lan = lan+", "+k
+		if val.languages != nil {
+			for k, _ := range val.languages {
+				lan = lan + ", " + k
 			}
 		}
 		var rep string
-		if val.repo!=nil{
-			for k,_:=range val.repo{
-				rep = rep+", "+k
+		if val.repo != nil {
+			for k, _ := range val.repo {
+				rep = rep + ", " + k
 			}
 		}
-		fmt.Printf("%s\t;%s\t;%s\t; %s; %s\n",val.name,val.loginId,val.email,rep,lan)
+		fmt.Printf("%s\t;%s\t;%s\t; %s; %s\n", val.name, val.loginId, val.email, rep, lan)
 	}
 	return nil
 }
